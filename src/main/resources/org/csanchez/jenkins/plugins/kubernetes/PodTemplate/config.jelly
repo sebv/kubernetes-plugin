@@ -62,6 +62,10 @@ THE SOFTWARE.
                                 deleteCaption="Delete Volume" />
   </f:entry>
 
+  <f:entry field="imagePullSecrets" title="${%Image pull secrets, comma separated}">
+    <f:textbox/>
+  </f:entry>
+
   <f:advanced>
     <f:entry field="privileged" title="${%Run in privileged mode}">
       <f:checkbox/>

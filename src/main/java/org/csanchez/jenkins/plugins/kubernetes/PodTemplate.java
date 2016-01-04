@@ -40,6 +40,8 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
 
     private final List<PodVolume> volumes;
 
+    private String imagePullSecrets;
+
     @DataBoundConstructor
     public PodTemplate(String image, List<? extends PodVolume> volumes) {
         Preconditions.checkArgument(!StringUtils.isBlank(image));
@@ -137,6 +139,15 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
 
     public boolean isPrivileged() {
         return privileged;
+    }
+
+    @DataBoundSetter
+    public void setImagePullSecrets(String imagePullSecrets) {
+        this.imagePullSecrets = imagePullSecrets;
+    }
+
+    public String getImagePullSecrets() {
+        return imagePullSecrets;
     }
 
     @Extension

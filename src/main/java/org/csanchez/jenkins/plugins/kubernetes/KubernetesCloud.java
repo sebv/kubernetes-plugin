@@ -37,6 +37,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -236,6 +237,14 @@ public class KubernetesCloud extends Cloud {
             }
         }
 
+        // Build image pull secrets
+        List<LocalObjectReference> imagePullSecrets = new ArrayList<LocalObjectReference>();
+        if (template.getImagePullSecrets() != null) {
+            for (final String imagePullSecret : Arrays.asList(template.getImagePullSecrets().split(","))) {
+                imagePullSecrets.add(new LocalObjectReference(imagePullSecret.trim()));
+            }
+        }
+
         return new PodBuilder()
                 .withNewMetadata()
                     .withName(slave.getNodeName())
@@ -243,6 +252,7 @@ public class KubernetesCloud extends Cloud {
                 .endMetadata()
                 .withNewSpec()
                     .withVolumes(volumes)
+                    .withImagePullSecrets(imagePullSecrets)
                     .addNewContainer()
                         .withName(CONTAINER_NAME)
                         .withImage(template.getImage())
